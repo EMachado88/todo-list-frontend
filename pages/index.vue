@@ -9,46 +9,7 @@
       <v-card>
         <v-card-text>
           <p>Please login or register, if you don't already have an account.</p>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-          >
-            <v-text-field
-              v-model="email"
-              label="Email"
-              required
-            />
-
-            <v-text-field
-              v-model="password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPassword ? 'text' : 'password'"
-              name="input-10-2"
-              label="Password"
-              hint="At least 6 characters"
-              class="input-group--focused mb-5"
-              @click:append="showPassword = !showPassword"
-            />
-
-            <v-btn
-              class="px-3 mr-2"
-              color="primary"
-              nuxt
-              to="/"
-            >
-              Login
-            </v-btn>
-            &nbsp;or
-            <v-btn
-              class="px-3 ml-3"
-              depressed
-              nuxt
-              to="/"
-            >
-              Register
-            </v-btn>
-          </v-form>
+          <login-form />
         </v-card-text>
       </v-card>
     </v-col>
@@ -56,13 +17,15 @@
 </template>
 
 <script>
+import LoginForm from '../components/LoginForm'
+
 export default {
+  components: {
+    LoginForm
+  },
   data () {
     return {
-      valid: false,
-      email: '',
-      password: '',
-      showPassword: false
+      register: false
     }
   }
 }
