@@ -1,10 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  mode: 'spa',
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - EDirect Insure TODO List',
-    title: 'Home',
+    titleTemplate: '%s  -  EDirect Insure TODO List',
+    title: 'Dashboard',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -21,6 +22,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
