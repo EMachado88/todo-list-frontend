@@ -85,6 +85,22 @@
         Login
       </v-btn>
     </v-form>
+
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -103,25 +119,30 @@ export default {
       rules: {
         required: value => !!value || 'Required',
         min: v => v.length >= 8 || 'Min 6 characters'
-      }
+      },
+
+      snackbar: false,
+      snackbarText: 'An error has ocurred'
     }
   },
 
   methods: {
     async signup () {
-      const response = await this.$axios.post('api/users/signup', {
-        user: {
-          name: this.name,
-          email: this.email,
-          password: this.password
-        }
-      })
+      try {
+        const response = await this.$axios.post('api/users/signup', {
+          user: {
+            name: this.name,
+            email: this.email,
+            password: this.password
+          }
+        })
 
-      /**
-       * @todo
-       * Auto login
-       */
-      console.log(response)
+        this.$axios.setToken(response.token)
+
+        this.$store.commit('login', { user: response.user, token: response.token })
+      } catch (error) {
+        this.snackbar = true
+      }
     },
 
     async login () {
@@ -134,6 +155,8 @@ export default {
         })
 
         this.$axios.setToken(response.token)
+
+        this.$store.commit('login', { user: response.user })
       } catch (error) {
         console.error(error)
       }
