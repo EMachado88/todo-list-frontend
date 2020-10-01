@@ -21,6 +21,18 @@
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item
+          v-if="user"
+          @click="logout"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -51,17 +63,30 @@
 export default {
   data () {
     return {
-      drawer: false,
+      drawer: true,
       clipped: true,
       fixed: true,
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Dashboard',
           to: '/'
         }
       ],
       title: 'EDirect Insure TODO List'
+    }
+  },
+
+  computed: {
+    user () { return this.$store.state.user }
+  },
+
+  methods: {
+    logout () {
+      this.$store.commit('logout')
+      this.$router.push({
+        path: '/'
+      })
     }
   }
 }
